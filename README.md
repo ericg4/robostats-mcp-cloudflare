@@ -47,6 +47,39 @@ To use this MCP server with Claude Desktop, you'll need to configure it using th
 
 4. **Verify Connection** - You should see the robostats tools become available in Claude
 
+#### Troubleshooting Claude Desktop
+
+**Issue: Server not connecting when using fnm (Fast Node Manager) on Mac**
+
+If you're using fnm on Mac and encounter connection issues, you may need to explicitly set the PATH environment variable:
+
+```json
+{
+  "mcpServers": {
+    "robostats": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@latest",
+        "https://robostats-mcp-cloudflare.eric-g4.workers.dev/sse"
+      ],
+      "env": {
+        "PATH": "<PATH_TO_NODE_BIN>:/usr/local/bin:/usr/bin"
+      }
+    }
+  }
+}
+```
+
+To find your Node.js binary path:
+1. Run `which node` in your terminal
+2. Take the path up to (and including) the `bin` folder, without a trailing slash
+3. Add `:/usr/local/bin:/usr/bin` to the end
+
+For example:
+- If `which node` returns `/Users/yourname/.fnm/node-versions/v18.17.0/installation/bin/node`
+- Use `/Users/yourname/.fnm/node-versions/v18.17.0/installation/bin:/usr/local/bin:/usr/bin` as your PATH value
+
 ### Cursor IDE
 
 To use this MCP server with Cursor IDE:
@@ -60,13 +93,8 @@ To use this MCP server with Cursor IDE:
    {
      "mcpServers": {
        "robostats": {
-         "command": "npx",
-         "args": [
-           "-y", 
-           "mcp-remote@latest",
-           "https://robostats-mcp-cloudflare.eric-g4.workers.dev/sse"
-         ]
-       }
+        "url": "https://robostats-mcp-cloudflare.eric-g4.workers.dev/sse"
+      }
      }
    }
    ```
